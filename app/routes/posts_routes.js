@@ -31,9 +31,27 @@ const router = express.Router()
 // GET /posts
 router.get('/posts', requireToken, (req, res, next) => {
   // Posts.find()
-  Posts.find({
-    owner: req.user._id
-  })
+  Posts.find(
+  //   {
+  //   owner: req.user._id
+  // }
+  )
+    .populate('owner')
+    // respond with status 200 and JSON of the posts
+    .then(posts => res.status(200).json({ posts: posts }))
+    // if an error occurs, pass it to the handler
+    .catch(next)
+})
+
+// INDEX
+// GET /myposts
+router.get('/myposts', requireToken, (req, res, next) => {
+  // Posts.find()
+  Posts.find(
+    {
+      owner: req.user._id
+    }
+  )
     .populate('owner')
     // respond with status 200 and JSON of the posts
     .then(posts => res.status(200).json({ posts: posts }))
