@@ -5,9 +5,14 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment',
+    required: true
+  }],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Posts',
+    ref: 'User',
     required: true
   }
 },
@@ -15,5 +20,6 @@ const commentSchema = new mongoose.Schema({
   timestamps: true
 })
 
+mongoose.model('Comment', commentSchema)
 // childSchema, don't need to create a model
 module.exports = commentSchema
